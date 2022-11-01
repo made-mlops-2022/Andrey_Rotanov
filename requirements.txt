@@ -1,0 +1,11 @@
+kaggle
+pandas
+sklearn
+marshmallow_dataclass
+pyaml
+click
+hydra-core
+mlflow
+boto3
+Faker
+unittest
