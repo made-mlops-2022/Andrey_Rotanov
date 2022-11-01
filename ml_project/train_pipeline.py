@@ -2,17 +2,21 @@ from typing import NoReturn
 import logging
 import pickle
 import hydra
-from hydra.core.config_store import ConfigStore
-from hydra.utils import instantiate
-import pandas as pd
-import click
 import mlflow
 import json
 from enities.train_pipeline_params import TrainingPipelineParams
 import sys
-from data.make_dataset import *
-from models.model_fit_predict import *
-from features.build_features import *
+from data.make_dataset import read_data, split_train_val_data
+from models.model_fit_predict import (
+    serialize_model,
+    train_model,
+    predict_model,
+    evaluate_model,
+    create_inference_pipeline)
+from features.build_features import (
+    extract_target,
+    create_transformer,
+    make_features)
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
@@ -20,22 +24,8 @@ logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
 
-# @click.command()
-# @click.option('--path_to_model', type=click.Path(exists=True),
-#               default='models/model_knn.pkl',
-#               help='The path to model to make prediciion')
-# @click.option('--path_to_transformer', type=click.Path(exists=True),
-#               default='models/transformers/transformer_knn.pkl',
-#               help='The path to the transformer for data transformation')
-# @click.option('--path_to_data', type=click.Path(exists=True),
-#               default='data/test/heart_cleveland_upload_test_unlabeled.csv',
-#               help='Path to raw data')
-# @click.option('--path_to_prediction', type=click.Path(exists=False),
-#               default='models/predictions/pred_knn.csv',
-#               help='Path to save prediction')
 @hydra.main(version_base=None, config_path='../configs', config_name='train_config')
 def train_pipeline(params: TrainingPipelineParams) -> NoReturn:
-    # params = instantiate(params, _convert_='partial')
     logger.info("Reading data")
     data = read_data(params.input_data_path)
 
@@ -44,14 +34,14 @@ def train_pipeline(params: TrainingPipelineParams) -> NoReturn:
     logger.info(f'Test size: {len(X_test)}')
     logger.info(f'Train size: {len(X_train)}')
 
-    logger.info(f'Create transformer')
+    logger.info('Create transformer')
     transformer = create_transformer(params.feature_params)
-    logger.info(f'Transformer training')
+    logger.info('Transformer training')
     transformer.fit(X_train)
     logger.info(f'Save transformer {params.train_params.output_transformer_path}')
     serialize_model(transformer, params.train_params.output_transformer_path)
 
-    logger.info(f'Start transformer')
+    logger.info('Start transformer')
     X_train = make_features(transformer, X_train)
 
     with open(params.train_params.output_transformer_path, 'rb') as f:

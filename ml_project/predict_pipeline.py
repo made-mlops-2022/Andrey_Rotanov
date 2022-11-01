@@ -5,8 +5,12 @@ import pandas as pd
 import click
 import sys
 from data.make_dataset import read_data
-from models.model_fit_predict import *
-from features.build_features import *
+from models.model_fit_predict import (
+    predict_model
+)
+from features.build_features import (
+    make_features
+)
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
@@ -31,14 +35,14 @@ def predict_pipeline(path_to_model: str, path_to_transformer: str,
                      path_to_data: str, path_to_prediction: str) -> NoReturn:
     logger.info("Start predicting")
     data = read_data(path_to_data)
-    logger.info(f'Loading the transformer')
+    logger.info('Loading the transformer')
 
     with open(path_to_transformer, 'rb') as f:
         transformer = pickle.load(f)
 
     data = make_features(transformer, data)
 
-    logger.info(f'Loading the model')
+    logger.info('Loading the model')
     with open(path_to_model, 'rb') as f:
         model = pickle.load(f)
 

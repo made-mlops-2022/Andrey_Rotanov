@@ -1,5 +1,5 @@
 import pickle
-from typing import Dict, Tuple, Union
+from typing import Dict, Union
 
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -8,7 +8,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 import numpy as np
 import pandas as pd
-from enities import TrainingParams
 from enities.training_params import TrainingParams
 
 SklearnClassificationModel = Union[KNeighborsClassifier, LogisticRegression]
