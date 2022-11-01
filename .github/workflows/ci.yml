@@ -2,9 +2,9 @@ name: homework1
 
 on:
   push:
-    branches: [ homework1 ]
+    branches: "*"
   pull_request:
-    branches: [ main ]
+    branches: "*"
 
 jobs:
   build:
