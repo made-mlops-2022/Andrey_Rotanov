@@ -3,6 +3,7 @@ import os
 import sys
 import unittest
 from sklearn.neighbors import KNeighborsClassifier
+import numpy as np
 
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
@@ -10,22 +11,17 @@ SOURCE_PATH = os.path.join(
 )
 sys.path.append(SOURCE_PATH)
 
-import numpy as np
 from models.model_fit_predict import (
     train_model,
-    create_inference_pipeline,
     predict_model,
     evaluate_model,
     serialize_model)
 from data.make_dataset import (
-    read_data,
     generate_synthetic_data,
     split_train_val_data)
 from features.build_features import (
     extract_target,
-    create_transformer,
-    make_features)
-
+    create_transformer)
 from enities.train_pipeline_params import read_training_pipeline_params
 
 

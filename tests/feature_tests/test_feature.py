@@ -9,7 +9,6 @@ SOURCE_PATH = os.path.join(
 sys.path.append(SOURCE_PATH)
 import numpy as np
 from data.make_dataset import (
-    read_data,
     generate_synthetic_data,
     split_train_val_data)
 from enities.train_pipeline_params import read_training_pipeline_params
@@ -19,10 +18,7 @@ from features.build_features import (
     make_features)
 from models.model_fit_predict import (
     train_model,
-    create_inference_pipeline,
-    predict_model,
-    evaluate_model,
-    serialize_model)
+    create_inference_pipeline)
 
 
 class TestFeatures(unittest.TestCase):
@@ -32,7 +28,7 @@ class TestFeatures(unittest.TestCase):
         params = read_training_pipeline_params(config_path)
 
         self.size_generate_data = (540, 14)
-        self.size_test= self.size_generate_data[0] * params.splitting_params.val_size
+        self.size_test = self.size_generate_data[0] * params.splitting_params.val_size
         self.data_gen = generate_synthetic_data(self.size_generate_data[0])
 
         X, y = extract_target(self.data_gen, params.feature_params.target_col)
