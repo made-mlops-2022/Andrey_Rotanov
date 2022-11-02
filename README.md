@@ -28,6 +28,3 @@ python3 .\ml_project\predict_pipeline.py --path_to_model ./models/models/model.p
 ```commandline
 python3 -m unittest tests
 ```
-
-Тесты на модули
-Описание запуска и оценка проекта
