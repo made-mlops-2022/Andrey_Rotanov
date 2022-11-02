@@ -18,10 +18,15 @@ from features.build_features import (
     create_transformer,
     make_features)
 
+_log_format = "%(asctime)s\t%(levelname)s\t%(name)s\t" \
+              "%(filename)s.%(funcName)s " \
+              "line: %(lineno)d | \t%(message)s"
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(logging.Formatter(_log_format))
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
+logger.propagate = False
 
 
 @hydra.main(version_base=None, config_path='../configs', config_name='train_config')
@@ -47,32 +52,34 @@ def train_pipeline(params: TrainingPipelineParams) -> NoReturn:
     with open(params.train_params.output_transformer_path, 'rb') as f:
         transformer = pickle.load(f)
 
+    logger.info(f'Start training {params.train_params.model_type}...')
+    model = train_model(X_train, y_train, params.train_params)
+    logger.info('End training')
+
+    inference_pipeline = create_inference_pipeline(model, transformer)
+    y_pred = predict_model(inference_pipeline, X_test)
+
+    logger.info('Evaluate models')
+    metrics = evaluate_model(y_pred, y_test)
+
     if params.use_mlflow:
-        mlflow.set_tracking_uri("http://localhost:5000")
+        mlflow.set_tracking_uri(params.url_mlflow)
         with mlflow.start_run(run_name=params.name_training_in_mlflow):
-            logger.info(f'Start training {params.train_params.model_type}...')
-            model = train_model(X_train, y_train, params.train_params)
-            logger.info('End training')
-
-            inference_pipeline = create_inference_pipeline(model, transformer)
-            y_pred = predict_model(inference_pipeline, X_test)
-
-            logger.info('Evaluate models')
-            metrics = evaluate_model(y_pred, y_test)
+            logger.info('Saved metrics to mlflow')
             for metric in metrics:
                 mlflow.log_metric(metric, metrics[metric])
-
-            logger.info("Save metrics")
-            with open(params.train_params.output_metric_path, 'w') as file:
-                json.dump(metrics, file)
-
-            logger.info(f"Save model to {params.train_params.output_model_path}")
-            serialize_model(model, params.train_params.output_model_path)
 
             # mlflow.sklearn.log_model(
             #     sk_model=model,
             #     artifact_path="classification_model",
             #     registered_model_name=params.train_params.model_type)
+
+    logger.info("Save metrics")
+    with open(params.train_params.output_metric_path, 'w') as file:
+        json.dump(metrics, file)
+
+    logger.info(f"Save model to {params.train_params.output_model_path}")
+    serialize_model(model, params.train_params.output_model_path)
 
 
 if __name__ == "__main__":

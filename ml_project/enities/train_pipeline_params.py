@@ -11,6 +11,7 @@ import yaml
 class TrainingPipelineParams:
     input_data_path: str
     use_mlflow: bool
+    url_mlflow: str
     name_training_in_mlflow: str
     download_params: DownloadParams
     splitting_params: SplittingParams

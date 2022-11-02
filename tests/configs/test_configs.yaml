@@ -3,7 +3,7 @@ use_mlflow: True
 url_mlflow: "http://localhost:5000"
 name_training_in_mlflow: 'classification'
 train_params:
-  model_type: "LogisticRegression"
+  model_type: "KNeighborsClassifier"
   output_model_path: "./models/models/model.pkl"
   output_transformer_path: "./models/transformers/transform.pkl"
   output_metric_path: "./models/evaluations/evaluation.json"

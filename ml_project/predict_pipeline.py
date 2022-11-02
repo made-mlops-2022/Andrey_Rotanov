@@ -11,9 +11,12 @@ from models.model_fit_predict import (
 from features.build_features import (
     make_features
 )
-
+_log_format = "%(asctime)s\t%(levelname)s\t%(name)s\t" \
+                  "%(filename)s.%(funcName)s " \
+                  "line: %(lineno)d | \t%(message)s"
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(logging.Formatter(_log_format))
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
@@ -23,7 +26,7 @@ logger.addHandler(handler)
               default='./models/models/model.pkl',
               help='The path to model to make prediciion')
 @click.option('--path_to_transformer', type=click.Path(exists=True),
-              default='./models/transformers/transformer.pkl',
+              default='./models/transformers/transform.pkl',
               help='The path to the transformer for data transformation')
 @click.option('--path_to_data', type=click.Path(exists=True),
               default='./data/raw/heart_cleveland_upload.csv',

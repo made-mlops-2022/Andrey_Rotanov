@@ -8,8 +8,11 @@ SOURCE_PATH = os.path.join(
     PROJECT_PATH, 'ml_project'
 )
 sys.path.append(SOURCE_PATH)
-from data.make_dataset import *
-from features.build_features import *
+from data.make_dataset import (
+    read_data,
+    generate_synthetic_data,
+    split_train_val_data)
+from features.build_features import extract_target
 from enities.splitting_params import SplittingParams
 
 
