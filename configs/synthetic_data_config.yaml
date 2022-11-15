@@ -1,0 +1,13 @@
+output_path: './tests/synthetic_data/synthetic_data.csv'
+size: 300
+feature:
+  - DescriptionFeature:
+      name: "age"
+      type: 'int'
+      min_value: 25
+      max_value: 80
+  - DescriptionFeature:
+      name: "sex"
+      type: 'int'
+      min_value: 0
+      max_value: 1
