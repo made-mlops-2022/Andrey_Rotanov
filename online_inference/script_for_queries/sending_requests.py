@@ -20,7 +20,7 @@ if __name__ == "__main__":
     logger.info(f'Server address: {SERVER_ADDRESS}')
 
     data = pd.read_csv(PATH_DATASET_FILE)
-    data, target = data.drop(TARGET_COLUMN, axis=1), data[TARGET_COLUMN]
+    data, target = data.drop(TARGET_COLUMN, axis=1).to_dict(orient='records'), data[TARGET_COLUMN]
     for cur_request in data:
         response = requests.post(SERVER_ADDRESS, json.dumps(cur_request))
         logger.info(f'Response Body: {response}')

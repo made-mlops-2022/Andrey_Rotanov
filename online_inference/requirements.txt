@@ -4,4 +4,6 @@ requests
 fastapi
 uvicorn
 pydantic
+httpx
 typing
+gdown

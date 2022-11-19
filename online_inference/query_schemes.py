@@ -25,7 +25,7 @@ class DataHeartDisease(BaseModel):
 
     @validator('trestbps')
     def check_trestbps(cls, cur_trestbps):
-        if cur_trestbps < 60 or cur_trestbps > 200:
+        if cur_trestbps < 60 or cur_trestbps > 400:
             raise ValueError("Error in the trestbps value!")
         return cur_trestbps
 
