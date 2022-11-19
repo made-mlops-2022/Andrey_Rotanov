@@ -1,0 +1,7 @@
+pandas
+scikit-learn==1.1.2
+requests
+fastapi
+uvicorn
+pydantic
+typing
