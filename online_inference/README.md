@@ -21,7 +21,7 @@ docker run --env-file .env -p 8000:8000 andrey506/made_mlops_homework:v1
 ```commandline
 docker build -f Dockerfile -t fast_api_model .
 ```
-ДЛя загрузки образа в `Docker Hub` необходимо авторизироваться в нем и выполнить следующие команды:
+Для загрузки образа в `Docker Hub` выполнить следующие команды:
 ```commandline
 docker login
 docker tag fast_api_model:latest andrey506/made_mlops_homework:latest
