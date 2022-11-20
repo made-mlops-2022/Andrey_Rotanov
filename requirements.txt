@@ -1,6 +1,6 @@
 kaggle
 pandas
-sklearn
+scikit-learn==1.1.2
 marshmallow_dataclass
 pyaml
 click
