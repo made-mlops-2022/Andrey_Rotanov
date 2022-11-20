@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logger.addHandler(stream_handler)
 
-PATH_DATASET_FILE = 'synthetic_data.csv'
+PATH_DATASET_FILE = 'script_for_queries/synthetic_data.csv'
 SERVER_ADDRESS = 'http://localhost:8000/predict'
 TARGET_COLUMN = 'condition'
 

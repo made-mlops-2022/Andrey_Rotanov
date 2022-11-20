@@ -21,9 +21,8 @@ async def validation_exception_handler(request, exc):
 
 @app.on_event("startup")
 def load_model():
-    path_to_model = os.getenv("PATH_TO_MODEL", '/home/andrey/Work/MADE/Andrey_Rotanov/online_inference/model.pkl')
-    path_to_transformer = os.getenv("PATH_TO_TRANSFORMER",
-                                    '/home/andrey/Work/MADE/Andrey_Rotanov/online_inference/transform.pkl')
+    path_to_model = os.getenv("PATH_TO_MODEL")
+    path_to_transformer = os.getenv("PATH_TO_TRANSFORMER")
 
     with open(path_to_transformer, 'rb') as file:
         global transformer
