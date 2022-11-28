@@ -8,10 +8,10 @@ import mlflow
 
 @click.command()
 @click.option('--path-to-data', type=click.Path(),
-              default='./data/raw/heart_cleveland_upload.csv',
+              default='./data/raw/',
               help='Path to input data')
 @click.option('--output-dir', type=click.Path(),
-              default='./models/predictions/predict.csv',
+              default='./',
               help='Path to save prediction')
 def predict(path_to_data: str,
             output_dir: str) -> NoReturn:

@@ -7,10 +7,10 @@ from sklearn.model_selection import train_test_split
 
 @click.command()
 @click.option('--path-raw-file', type=click.Path(),
-              default='data.csv',
+              default='./',
               help='The path to the data file')
 @click.option('--path-target-file', type=click.Path(),
-              default='data.csv',
+              default='./',
               help='The path to the data file')
 @click.option('--test-size', type=float,
               default=0.2,
