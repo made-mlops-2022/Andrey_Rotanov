@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.sensors.python import PythonSensor
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
-from utils import MLRUNS_DIR, DATA_DIR, default_args, wait_for_file
+from utils import LOCAL_MLRUNS_DIR, LOCAL_DATA_DIR, default_args, wait_for_file
 
 with DAG(
         'predict',
@@ -23,14 +23,15 @@ with DAG(
 
     preprocess = DockerOperator(
         image='airflow-preprocess',
-        command='--path-raw-file /data/raw/{{ ds }}/data.csv'
-                '--path-target-file /data/raw/{{ ds }}/target.csv'
+        command='--input-dir /data/raw/{{ ds }}/data.csv '
+                '--test-size 0.2 '
+                '--path-target-file /data/raw/{{ ds }}/target.csv '
                 '--output-dir /data/processed/{{ ds }}',
         network_mode='bridge',
         task_id='docker-airflow-predict-preprocess',
         do_xcom_push=False,
         auto_remove=True,
-        mounts=[Mount(source=DATA_DIR, target='/data', type='bind')]
+        mounts=[Mount(source=LOCAL_DATA_DIR, target='/data', type='bind')]
     )
 
     predict = DockerOperator(
@@ -41,8 +42,8 @@ with DAG(
         task_id='docker-airflow-predict',
         do_xcom_push=False,
         auto_remove=True,
-        mounts=[Mount(source=DATA_DIR, target='/data', type='bind'),
-                Mount(source=MLRUNS_DIR, target='/mlruns', type='bind')]
+        mounts=[Mount(source=LOCAL_DATA_DIR, target='/data', type='bind'),
+                Mount(source=LOCAL_MLRUNS_DIR, target='/mlruns', type='bind')]
     )
 
     wait_data >> preprocess >> predict

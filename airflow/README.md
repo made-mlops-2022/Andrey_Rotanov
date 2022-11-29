@@ -1,8 +1,8 @@
 # Начало работы
 Перед запуском контейнера airflow необходимо экспортировать переменные окружения:
 ```commandline
-export DATA_DIR=$(pwd)/data
-export MLRUNS_DIR=$(pwd)/mlruns
+export LOCAL_DATA_DIR=$(pwd)/data
+export LOCAL_MLRUNS_DIR=$(pwd)/mlruns
 export FERNET_KEY=$(python3 -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
 ```
 

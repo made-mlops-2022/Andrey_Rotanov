@@ -1,9 +1,10 @@
 import os
+from airflow.models import Variable
 from datetime import timedelta
 from airflow.utils.email import send_email_smtp
 
-DATA_DIR = os.getenv('DATA_DIR')
-MLRUNS_DIR = os.getenv('MLRUNS_DIR')
+LOCAL_DATA_DIR = Variable.get('local_data_dir')
+LOCAL_MLRUNS_DIR = Variable.get('local_mlruns_dir')
 
 
 def wait_for_file(file_name):

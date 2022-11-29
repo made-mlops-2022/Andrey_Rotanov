@@ -2,7 +2,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
-from utils import DATA_DIR, default_args
+from utils import LOCAL_DATA_DIR, default_args
 
 with DAG(
         'generate_data',
@@ -17,7 +17,7 @@ with DAG(
         task_id='docker-airflow-generate-data',
         do_xcom_push=False,
         auto_remove=True,
-        mounts=[Mount(source=DATA_DIR, target='/data', type='bind')]
+        mounts=[Mount(source=LOCAL_DATA_DIR, target='/data', type='bind')]
     )
 
     generate_data

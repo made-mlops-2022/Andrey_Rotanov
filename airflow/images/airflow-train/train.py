@@ -8,8 +8,8 @@ import pandas as pd
 
 
 @click.command()
-@click.option('--input-dir', type=click.Path(exists=True),
-              default='data.csv',
+@click.option('--input-dir', type=click.Path(),
+              default='./',
               help='The path to the data file')
 @click.option('--output-dir', type=click.Path(),
               default='./',

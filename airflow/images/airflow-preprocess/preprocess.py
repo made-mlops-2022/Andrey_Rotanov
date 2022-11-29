@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 
 
 @click.command()
-@click.option('--path-raw-file', type=click.Path(),
+@click.option('--input-dir', type=click.Path(),
               default='./',
               help='The path to the data file')
 @click.option('--path-target-file', type=click.Path(),
@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 @click.option('--output-dir', type=click.Path(),
               default='./',
               help='File save folder')
-def preprocess_data(path_to_raw_file: str,
+def preprocess(path_to_raw_file: str,
                     path_to_target_file: str,
                     test_size: float,
                     output_dir: str):
@@ -48,4 +48,4 @@ def preprocess_data(path_to_raw_file: str,
 
 
 if __name__ == "__main__":
-    preprocess_data()
+    preprocess()

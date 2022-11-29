@@ -6,7 +6,7 @@ import os
 import mlflow
 
 
-@click.command()
+@click.command('predict')
 @click.option('--path-to-data', type=click.Path(),
               default='./data/raw/',
               help='Path to input data')
