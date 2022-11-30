@@ -17,15 +17,14 @@ with DAG(
         op_args=['/opt/airflow/data/raw/{{ ds }}/data.csv'],
         timeout=6000,
         poke_interval=10,
-        retries=100,
+        retries=10,
         mode="poke"
     )
 
     preprocess = DockerOperator(
         image='airflow-preprocess',
-        command='--input-dir /data/raw/{{ ds }}/data.csv'
-                '--path-target-file /data/raw/{{ ds }}/target.csv'
-                '--output-dir /data/processed/{{ ds }}',
+        command='--input-dir /data/raw/{{ ds }}/ '
+                '--output-dir /data/processed/{{ ds }}/ ',
         network_mode='bridge',
         task_id='docker-airflow-predict-preprocess',
         do_xcom_push=False,

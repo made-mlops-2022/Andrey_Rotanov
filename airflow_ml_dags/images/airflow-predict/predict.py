@@ -17,7 +17,7 @@ def predict(path_to_data: str,
             output_dir: str) -> NoReturn:
     os.makedirs(output_dir, exist_ok=True)
     URL = "http://localhost:5000"
-    data = pd.read_csv(os.path.join(path_to_data, "X_val.csv"))
+    data = pd.read_csv(os.path.join(path_to_data, "processed.csv"))
 
     mlflow.set_tracking_uri(URL)
     model = mlflow.pyfunc.load_model(
@@ -27,7 +27,7 @@ def predict(path_to_data: str,
     predictions = model.predict(data)
     path_to_prediction = os.path.join(output_dir, 'predictions.csv')
     pd.DataFrame(predictions).to_csv(path_to_prediction, index=False)
-
+#
 
 if __name__ == "__main__":
     predict()

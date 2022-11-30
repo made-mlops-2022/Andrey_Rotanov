@@ -5,7 +5,14 @@ import mlflow
 import pandas as pd
 import pickle
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, recall_score
-
+import logging
+logger = logging.getLogger(__name__)
+_log_format = "%(asctime)s\t%(levelname)s\t %(message)s"
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+stream_handler.setFormatter(logging.Formatter(_log_format))
+logger.setLevel(logging.INFO)
+logger.addHandler(stream_handler)
 
 @click.command()
 @click.option('--input-dir', type=click.Path(exists=True),
@@ -14,7 +21,7 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, r
 @click.option('--model-dir', type=click.Path(exists=True),
               default='./',
               help='File save folder')
-@click.option('--output-dir', type=click.Path(exists=True),
+@click.option('--output-dir', type=click.Path(),
               default='./',
               help='The path to the data file')
 def validate(input_dir: str,
@@ -22,9 +29,10 @@ def validate(input_dir: str,
              output_dir: str):
     os.makedirs(output_dir, exist_ok=True)
     URL = "http://localhost:5000"
+
     model_name = os.listdir(model_dir)[0]
     mlflow.set_tracking_uri(URL)
-    with mlflow.start_run(run_name=os.path.basename(model_name)[0]):
+    with mlflow.start_run(run_name=os.path.basename(model_name)):
         X = pd.read_csv(os.path.join(input_dir, 'X_val.csv'))
         y_true = pd.read_csv(os.path.join(input_dir, 'y_val.csv'))
 
@@ -33,17 +41,16 @@ def validate(input_dir: str,
         y_pred = model.predict(X)
 
         metrics = {}
-        metrics["r2_score"] = r2_score(y_true, y_pred),
-        metrics["rmse"] = mean_squared_error(y_true, y_pred, squared=False),
-        metrics["mae"] = mean_absolute_error(y_true, y_pred),
+        metrics["r2_score"] = r2_score(y_true, y_pred)
+        metrics["rmse"] = mean_squared_error(y_true, y_pred, squared=False)
+        metrics["mae"] = mean_absolute_error(y_true, y_pred)
         metrics['recall'] = recall_score(y_true, y_pred)
-
-        for metric in metrics:
+        for metric in metrics.keys():
             mlflow.log_metric(metric, metrics[metric])
 
         with open(os.path.join(output_dir, 'metric.json'), 'w') as metric_file:
             json.dump(metrics, metric_file)
-
-
+#
+#
 if __name__ == "__main__":
     validate()

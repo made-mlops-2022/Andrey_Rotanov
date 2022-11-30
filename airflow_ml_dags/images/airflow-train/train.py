@@ -16,7 +16,6 @@ import pandas as pd
               help='File save folder')
 def train_model(input_dir: str,
                 output_dir: str) -> NoReturn:
-
     os.makedirs(output_dir, exist_ok=True)
     URL = "http://localhost:5000"
     mlflow.set_tracking_uri(URL)
@@ -41,6 +40,5 @@ def train_model(input_dir: str,
             artifact_path="classification_model",
             registered_model_name='knn_model')
 
-
-if __name__ == "__main__":
+if __name__=="__main__":
     train_model()
