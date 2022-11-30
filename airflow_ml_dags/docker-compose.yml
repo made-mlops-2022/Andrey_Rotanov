@@ -16,7 +16,7 @@ x-environment: &airflow_environment
   - AIRFLOW__SMTP__SMTP_SSL=False
   - AIRFLOW__SMTP__SMTP_USER=rotanov07@mail.com
   - AIRFLOW__SMTP__SMTP_PASSWORD=${PASSWORD}
-  - AIRFLOW__SMTP__SMTP_PORT=587
+  - AIRFLOW__SMTP__SMTP_PORT=465
   - AIRFLOW__SMTP__SMTP_MAIL_FROM=rotanov07@mail.com
 
 x-airflow-image: &airflow_image apache/airflow:2.3.0-python3.8

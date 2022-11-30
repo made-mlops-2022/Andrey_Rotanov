@@ -5,14 +5,6 @@ import mlflow
 import pandas as pd
 import pickle
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, recall_score
-import logging
-logger = logging.getLogger(__name__)
-_log_format = "%(asctime)s\t%(levelname)s\t %(message)s"
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-stream_handler.setFormatter(logging.Formatter(_log_format))
-logger.setLevel(logging.INFO)
-logger.addHandler(stream_handler)
 
 @click.command()
 @click.option('--input-dir', type=click.Path(exists=True),

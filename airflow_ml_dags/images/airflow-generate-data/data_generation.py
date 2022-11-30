@@ -3,15 +3,7 @@ import click
 import pandas as pd
 from faker import Faker
 import os
-import logging
 
-logger = logging.getLogger(__name__)
-_log_format = "%(asctime)s\t%(levelname)s\t %(message)s"
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-stream_handler.setFormatter(logging.Formatter(_log_format))
-logger.setLevel(logging.INFO)
-logger.addHandler(stream_handler)
 
 def generate_synthetic_data(cnt_rows: int) -> pd.DataFrame:
     fake = Faker()
@@ -56,9 +48,9 @@ def generate(output_dir: str,
 
     os.makedirs(output_dir, exist_ok=True)
     target_column = 'condition'
-    logger.info(f'Cur dir {os.getcwd()}')
+
     path_to_data_file = os.path.join(output_dir, name_data_file)
-    logger.info(f'{path_to_data_file=}')
+
     if os.path.exists(path_to_data_file):
         os.remove(path_to_data_file)
 
