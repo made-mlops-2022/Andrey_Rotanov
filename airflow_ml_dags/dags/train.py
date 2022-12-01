@@ -8,7 +8,7 @@ from utils import LOCAL_MLRUNS_DIR, LOCAL_DATA_DIR, default_args, wait_for_file
 with DAG(
         'train',
         default_args=default_args,
-        schedule_interval='@daily',
+        schedule_interval='@weekly',
         start_date=datetime(2022, 11, 30)
 ) as dag:
     wait_data = PythonSensor(
